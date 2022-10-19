@@ -1,0 +1,9 @@
+ViewTube
+===========================================
+Functionalities
+==============
+Home Page--- videos
+Categories
+Search a Video, Share a video
+Favorites/Library
+History

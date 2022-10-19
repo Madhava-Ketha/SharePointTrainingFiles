@@ -1,0 +1,52 @@
+<label>Enter List Name</label>
+<input type="text" id='listname' name='listname'/>
+<input type="button" id='id1' value='Create List' onclick="CreateList();"/>
+ <br><br><br><br>
+<label>               Title              </label>
+<input type="text" id='titlenm' name='titlenm'/>
+<input type="button" id='insert' value='insert' onclick="Insert();"/>
+<script type="text/javascript">
+function CreateList()
+{ var clientContext;
+  var listCreationInfo;
+  var web;
+  var list;
+
+  clientContext = SP.ClientContext.get_current();
+  web = clientContext.get_web();
+  listCreationInfo = new SP.listCreationInformation();
+  listCreationInfo.set_title(document.getElementById("listname").value);
+  listCreationInfo.set_templateType(SP.ListTemplateType.genericList);
+  list = web.get_lists().add(listCreationInfo);
+  clientContext.load(list);
+  clientContext.executeQueryAsync(
+                        function() {alert("List created successfully!!!")},
+                        function() {alert("Request failed")}
+  );
+}
+function Insert()
+{ var clientContext;
+  var listCreationInfo;
+  var web;
+  var list;
+  var lnm=document.getElementById("listname").value;
+  var title=document.getElementById("titlenm").value;
+  clientContext = SP.ClientContext.get_current();
+  var olist = clientContext.get_web().get_lists().getByTitle(lnm);
+  var itemCreationInfo = new SP.ListItemCreationInformation();
+  this.oListItem = oList.addItem(itemCreateInfo);
+  oListItem.set_item('Title',title);
+  oListItem.update();
+  clientContext.load(oListItem);
+  clientContext.executeQueryAsync(Function.createDelegate(this,this.onQuerySucceeded_listitem), Function.createDelegate(this,this.onQueryFailed_listitem));
+}
+function onQuerySucceeded_listitem(){
+  alert('Item created:  ' + oListItem.get_id());
+
+}
+
+function onQueryFailed_listitem(sender,  args){
+  alert('Request failed.  '+args.get_message()+'\n' + args.get_stackTrace());
+
+}
+</script> 

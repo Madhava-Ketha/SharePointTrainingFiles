@@ -1,0 +1,42 @@
+<label>List Name</label>
+
+<input type="text" id="txtlistname" name="list_name" /> 
+<label>Enter Column Name</label> 
+<input type="button" id="colbtn" value="Add Column" onclick="addFieldToList();"/>
+
+<input type text id="txtlcolname" name="col_name" />
+
+<script type="text/javascript">
+
+function addFieldToList() 
+{ var clientContext = SP.ClientContext.get_current();
+
+this.colnamel document.getElementById("txtlcolname").value;
+
+var colDisp = '<Field DisplayName='colname1" Type=\'Number\' />';
+
+var olist = clientContext.get_web().get_lists().getByTitle(document.getElementById("txtlistname").value); 
+this.ofield olist.get_fields().addFieldAsXml(
+colDisp,
+true,
+SP.AddFieldOptions.defaultValue
+);
+var fieldNumber = clientContext.castTo(oField, SP.FieldNumber);
+
+fieldNumber.set_maximumValue(100); 
+fieldNumber.set_minimumValue(35);
+fieldNumber.update();
+clientContext.load(oField); 
+clientContext.executeQueryAsync(
+
+Function.createDelegate(this, this.onQuerySucceeded),
+Function.createDelegate(this, this.onQueryFailed));
+}
+Function onQuerySucceeded() { var result= ofield.get_title() added successfully!'; alert(result);
+
+} 
+function onQueryFailed (sender, args) {
+
+alert('Request failed. args.get_message() + "In args.get_stackTrace()); }
+
+</script>
